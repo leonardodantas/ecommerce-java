@@ -1,0 +1,40 @@
+version: '3.3'
+
+services:  
+  produtoss:
+    build: ./produtos/
+    ports:
+      - "8556:8556"
+    restart: always
+    networks: 
+      - ms-network
+  carrinhoo:
+    depends_on:
+      - mongo
+    build: ./carrinho/
+    ports:
+      - "8080:8080"
+    restart: always
+    networks: 
+      - ms-network
+  
+  loginn:
+    build: ./login/
+    ports:
+      - "8081:8081"
+    restart: always
+    networks: 
+      - ms-network
+  
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dantas
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - "27017:27017"
+    networks:
+      - ms-network
+networks: 
+  ms-network:
+    driver: bridge
